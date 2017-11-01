@@ -1,0 +1,26 @@
+{
+  "name": "selenite",
+  "version": "0.0.1",
+  "description": "A twitter bot",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crookm/selenite.git"
+  },
+  "keywords": [
+    "twitter",
+    "bot"
+  ],
+  "author": {
+    "email": "mcro591@aucklanduni.ac.nz",
+    "name": "Matt Crook",
+    "url": "https://matt.crook.nz/"
+  },
+  "bugs": {
+    "url": "https://github.com/crookm/selenite/issues"
+  },
+  "homepage": "https://github.com/crookm/selenite#readme"
+}
