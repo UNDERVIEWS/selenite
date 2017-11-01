@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/crookm/selenite/issues"
   },
-  "homepage": "https://github.com/crookm/selenite#readme"
+  "homepage": "https://github.com/crookm/selenite#readme",
+  "dependencies": {
+    "twitter": "^1.7.1"
+  }
 }
