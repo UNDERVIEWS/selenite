@@ -1,4 +1,6 @@
 const Twitter = require('twitter');
+const express = require('express');
+const app = express();
 
 const T = new Twitter({
     consumer_key: process.env.C_KEY,
@@ -7,11 +9,21 @@ const T = new Twitter({
     access_token_secret: process.env.AT_SEC
 });
 
-T.get('search/tweets', {
+const port = process.env.PORT || 3000;
+
+app.use(express.static('public'))
+
+app.post('/', (req, res) => {
+    res.send('df');
+});
+
+app.listen(port, () => console.log(`\nApplication running @ http://127.0.0.1:${port}`));
+
+/*T.get('search/tweets', {
     q: 'node.js',
 
     count: 15,
-    result_type: 'mixed',
+    result_type: 'popular',
     since_id: '924169088288673792'
 }, (err, tweets, resp) => {
     if (err) console.error(err);
@@ -32,4 +44,4 @@ T.get('search/tweets', {
 
         console.log('Last ID was:', last_id);
     }
-});
+});*/
