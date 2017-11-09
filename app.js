@@ -1,6 +1,7 @@
 const Twitter = require('twitter');
-const express = require('express');
-const app = express();
+const TwitterConsumer = require('./TwitterConsumer.js');
+//const express = require('express');
+//const app = express();
 
 const T = new Twitter({
     consumer_key: process.env.C_KEY,
@@ -9,7 +10,22 @@ const T = new Twitter({
     access_token_secret: process.env.AT_SEC
 });
 
-const port = process.env.PORT || 3000;
+const C = new TwitterConsumer(process.env.MONGO);
+C.createConnection(() => {
+    let acc_ids = C.getFollowedAccIds();
+    
+    T.stream('statuses/filter', {follow: acc_ids}, (stream) => {
+        stream.on('data', (event) => {
+            console.log(event);
+        });
+    
+        stream.on('error', (err) => {
+            console.error(`Error on status stream: ${err}`);
+        });
+    });
+});
+
+/*const port = process.env.PORT || 3000;
 
 app.use(express.static('public'))
 
@@ -17,7 +33,9 @@ app.post('/', (req, res) => {
     res.send('df');
 });
 
-app.listen(port, () => console.log(`\nApplication running @ http://127.0.0.1:${port}`));
+app.listen(port, () => console.log(`\nApplication running @ http://127.0.0.1:${port}`));*/
+
+
 
 /*T.get('search/tweets', {
     q: 'node.js',
