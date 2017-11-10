@@ -13,14 +13,28 @@ const T = new Twitter({
 const C = new TwitterConsumer(process.env.MONGO);
 C.createConnection(() => {
     let acc_ids = C.getFollowedAccIds();
-    
     T.stream('statuses/filter', {follow: acc_ids}, (stream) => {
+        console.log(`Started status monitor stream on ids: ${acc_ids}`);
         stream.on('data', (event) => {
-            console.log(event);
+            if (typeof event.id_str === 'string'
+                && typeof event.text === 'string') {
+                let response = C.getResponse(event);
+                if (response !== false) {
+                    // reply with response
+                    T.post('statuses/update', {
+                        status: `@${event.user.screen_name} ${response}`,
+                        in_reply_to_status_id: event.id
+                    },  (err, tweet, resp) => {
+                        if(err) console.error(`Error on status post: ${err}`);
+                        console.log(`Responded to ${event.user.screen_name}`);
+                    });
+                }
+            }
         });
     
         stream.on('error', (err) => {
-            console.error(`Error on status stream: ${err}`);
+            throw err;
+            //console.error(`Error on status stream: ${err}`);
         });
     });
 });
